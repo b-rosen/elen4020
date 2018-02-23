@@ -1,0 +1,150 @@
+%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt,british]{IEEEtran}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\setcounter{tocdepth}{2}
+\usepackage{color}
+\usepackage{babel}
+\usepackage{float}
+\usepackage[unicode=true,
+ bookmarks=true,bookmarksnumbered=true,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=true]
+ {hyperref}
+\hypersetup{pdftitle={The LyX User's Guide},
+ pdfauthor={LyX Team},
+ pdfsubject={LyX},
+ pdfkeywords={LyX},
+ linkcolor=black, citecolor=black, urlcolor=blue, filecolor=blue, pdfpagelayout=OneColumn, pdfnewwindow=true, pdfstartview=XYZ, plainpages=false}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\floatstyle{ruled}
+\newfloat{algorithm}{tbp}{loa}
+\providecommand{\algorithmname}{Algorithm}
+\floatname{algorithm}{\protect\algorithmname}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\newlength{\lyxlabelwidth}      % auxiliary length 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+% DO NOT ALTER THIS PREAMBLE!!!
+%
+% This preamble is designed to ensure that the User's Guide prints
+% out as advertised. If you mess with this preamble,
+% parts of the User's Guide may not print out as expected.  If you
+% have problems LaTeXing this file, please contact 
+% the documentation team
+% email: lyx-docs@lists.lyx.org
+
+\usepackage{ifpdf} % part of the hyperref bundle
+\ifpdf % if pdflatex is used
+
+ % set fonts for nicer pdf view
+ \IfFileExists{lmodern.sty}{\usepackage{lmodern}}{}
+
+\fi % end if pdflatex is used
+
+% for correct jump positions whe clicking on a link to a float
+\usepackage[figure]{hypcap}
+
+% the pages of the TOC is numbered roman
+% and a pdf-bookmark for the TOC is added
+\let\myTOC\tableofcontents
+\renewcommand\tableofcontents{%
+  \frontmatter
+  \pdfbookmark[1]{\contentsname}{}
+  \myTOC
+  \mainmatter }
+
+% macro for italic page numbers in the index
+\newcommand{\IndexDef}[1]{\textit{#1}}
+
+% for customized page headers/footers
+% only needed because they are only used in one section of the document
+\usepackage{fancyhdr}
+% change header rule width
+\renewcommand{\headrulewidth}{2pt}
+
+% used to have extra space in table cells
+\@ifundefined{extrarowheight}
+ {\usepackage{array}}{}
+\setlength{\extrarowheight}{2pt}
+
+% workaround for a makeindex bug,
+% see sec. "Index Entry Order"
+% only uncomment this when you are using makindex
+%\let\OrgIndex\index 
+%\renewcommand*{\index}[1]{\OrgIndex{#1}}
+
+\makeatother
+
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Listing}
+
+\begin{document}
+\onecolumn
+
+\title{Laboratory Exercise 1}
+
+\IEEEspecialpapernotice{ELEN4020, 23 February 2018}
+
+\author{Shane House (749524), Benjamin Rosen (858324)}
+\maketitle
+
+\section{OpenMP}
+
+When the sample code was run, it was found that 4 ``hello world''s
+were printed. OpenMP runs the code in a number of parallel processes,
+which defaults to the number of threads capable by the machine. The
+code was run on a 2 core machine, with each core capable of 2 threads,
+which is why it printed 4 times.
+
+\section{Lab}
+
+The N-dimensional array was constructed using one single array. This
+is because a multi-dimensional array with dynamic dimension cannot
+be passed to a function. In addition, the computer stores a multi-dimensional
+array in contiguous memory, so it is effectively a 1D array.
+
+First, a helper function was declared, which calculated the total
+length of the 1D array by multiplying the dimensions together.
+
+For the first function, a simple for loop was used that runs through
+the entire 1D array and sets all values to 0.
+
+The second function multiplies the array length by 0.1 (i.e. 10\%),
+and uses that value as an increment in the for loop. The for loop
+sets each value that it encounters to 1. This ensures that there is
+a uniform distribution of 1s throughout the array.
+
+The final function multiplies the array length by 0.05 (5\%) to obtain
+the number of elements to check. For each iteration, a new random
+position in the linear (1D) array is selected and its value printed.
+The actual position in the multi-dimensional array is calculated using
+Algorithm \ref{alg:multi-dim}.
+
+\begin{algorithm}
+\caption{Method to Calculate Multi-Dimensional Position from Linear Array Position\label{alg:multi-dim}}
+
+\begin{lstlisting}[tabsize=2]
+Begin Algorithm:
+	linearPos = linear array position
+	for each dimension, working backwards, do:
+		dimensionLength = length of dimension
+		position for multi-dimensional array = linearPos mod dimensionLength
+		linearPos /= dimensionLength
+	end for
+End Algorithm
+\end{lstlisting}
+\end{algorithm}
+
+A for loop prints out the multi-dimensional position to console. The
+reason we worked backwards, by generating a random number and then
+working out the N-dimensional position, was to ensure that the distribution
+would be uniform for the \textbf{entire }array. For the other method,
+where a random number is determined for each dimension and the linear
+position calculated after, the distribution will only occur over each
+dimension, but not necessarily the entire N-dimensional array.
+\end{document}
