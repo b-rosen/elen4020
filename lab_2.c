@@ -36,15 +36,24 @@ int main(int argc, char const *argv[])
   int swapLength = (dimension*(dimension - 1)) / 2;
   int x;
   int y;
-  for (size_t i = 0; i < swapLength; i++)
+  double rawPos;
+  int xReal = 0;
+  int yReal = -1;
+  for (size_t i = 0; i < 33550336; i++)
   {
-    float rawPos = 0.5 + sqrt(0.25 + 2*i);
-    x = (int) rawPos;
-    y = (rawPos - x) * (x + 1);
-    if (y == x - 1)
-      printf("(%d:%d)\n", x, y);
-    else
-      printf("(%d:%d), ", x, y);
+    rawPos = 0.5 + sqrt(0.25 + 2*i);
+    x = floor(rawPos);
+    y = trunc((rawPos - x) * (x + 1));
+    yReal++;
+    if (yReal >= xReal)
+    {
+      yReal = 0;
+      xReal++;
+    }
+    if (yReal != y || xReal != x)
+    {
+      printf("Error:\tReal(%d,%d)\tAssumed(%d:%d)\tRaw: %f\n", xReal, yReal, x, y, rawPos);
+    }
   }
   free(testArr);
 
