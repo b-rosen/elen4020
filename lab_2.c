@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <time.h>
 
 int DimensionsToLength(int xSize, int ySize)
@@ -28,11 +29,23 @@ void SetNumber(int *arr, int xSize, int ySize)
 
 int main(int argc, char const *argv[])
 {
-  printf("Using A[10][10] Array:\n\n");
-  int dimension = 5;
+  int dimension = 13;
   int *testArr = malloc(DimensionsToLength(dimension, dimension)*sizeof(int));
   SetNumber(testArr, dimension, dimension);
-  PrintMatrix(testArr, dimension, dimension);
+  // PrintMatrix(testArr, dimension, dimension);
+  int swapLength = (dimension*(dimension - 1)) / 2;
+  int x;
+  int y;
+  for (size_t i = 0; i < swapLength; i++)
+  {
+    float rawPos = 0.5 + sqrt(0.25 + 2*i);
+    x = (int) rawPos;
+    y = (rawPos - x) * (x + 1);
+    if (y == x - 1)
+      printf("(%d:%d)\n", x, y);
+    else
+      printf("(%d:%d), ", x, y);
+  }
   free(testArr);
 
   return 0;
