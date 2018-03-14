@@ -4,7 +4,7 @@
 #include <math.h>
 #include <time.h>
 
-#define MAX_NUM_THREADS 3
+#define MAX_NUM_THREADS 2
 
 int DimensionsToLength(int xSize, int ySize)
 {  return xSize*ySize; }
@@ -66,7 +66,7 @@ void SetNumber(int *arr, int xSize, int ySize)
 
 int main(int argc, char const *argv[])
 {
-  int dimension = 8192;
+  int dimension = 12;
   int swapLength = (dimension*(dimension - 1)) / 2;
   int iterationsPerThread = swapLength / MAX_NUM_THREADS;
 
@@ -122,6 +122,16 @@ int main(int argc, char const *argv[])
     //   printf("(%d,%d)\n", x, y);
     // else
     //   printf("(%d,%d) ", x, y);
+  }
+  void *status;
+  int rc;
+  for(size_t t = 0; t < MAX_NUM_THREADS; t++)
+  {
+     rc = pthread_join(threads[t], &status);
+     if (rc) {
+        printf("ERROR; return code from pthread_join() is %d\n", rc);
+        exit(-1);
+        }
   }
   clock_t time2 = clock();
   double time = (double) (time2 - time1) / (double)CLOCKS_PER_SEC;
