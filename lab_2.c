@@ -124,7 +124,7 @@ int main(int argc, char const *argv[])
     //   printf("(%d,%d) ", x, y);
   }
   clock_t time2 = clock();
-  printf("Time: %ld\n", (double)(time2 - time1));
+  printf("Time: %lf\n", (double)(time2 - time1));
   // struct ThreadArgs testArgs;
   // testArgs.xStart = 0;
   // testArgs.yStart = 0;
