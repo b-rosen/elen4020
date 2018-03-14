@@ -4,7 +4,7 @@
 #include <math.h>
 #include <time.h>
 
-#define MAX_NUM_THREADS 1
+#define MAX_NUM_THREADS 2
 
 int DimensionsToLength(int xSize, int ySize)
 {  return xSize*ySize; }
