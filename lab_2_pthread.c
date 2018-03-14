@@ -4,7 +4,7 @@
 #include <math.h>
 #include <time.h>
 
-#define MAX_NUM_THREADS 2
+#define MAX_NUM_THREADS 3
 
 int DimensionsToLength(int xSize, int ySize)
 {  return xSize*ySize; }
@@ -124,7 +124,8 @@ int main(int argc, char const *argv[])
     //   printf("(%d,%d) ", x, y);
   }
   clock_t time2 = clock();
-  printf("Time: %ld\n", (double)(time2 - time1));
+  double time = (double) (time2 - time1) / (double)CLOCKS_PER_SEC;
+  printf("Time: %lf seconds\n", time);
   // struct ThreadArgs testArgs;
   // testArgs.xStart = 0;
   // testArgs.yStart = 0;
