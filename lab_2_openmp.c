@@ -4,7 +4,7 @@
 #include <math.h>
 #include <time.h>
 
-#define MAX_NUM_THREADS 1
+#define MAX_NUM_THREADS 16
 
 int DimensionsToLength(int xSize, int ySize)
 {  return xSize*ySize; }
@@ -52,7 +52,9 @@ int main(int argc, char const *argv[])
   int temp;
   size_t i;
 
-  clock_t time1 = clock();
+  struct timespec time1, time2;
+
+  clock_gettime(CLOCK_REALTIME, &time1);
   #pragma omp parallel shared(extraWorkThreads, testArr, dimension, iterationsPerThread) private(x, y, threadID, rawPos, swapIteration, _iterationsPerThread, temp, i) num_threads(MAX_NUM_THREADS)
   {
     threadID = omp_get_thread_num();
@@ -86,9 +88,10 @@ int main(int argc, char const *argv[])
       }
     }
   }
-  clock_t time2 = clock();
-  double time = (double) (time2 - time1) / (double)CLOCKS_PER_SEC;
-  printf("Time: %lf seconds\n", time);
+  clock_gettime(CLOCK_REALTIME, &time2);
+  double timeDiff = time2.tv_sec - time1.tv_sec;
+  timeDiff += (time2.tv_nsec - time1.tv_nsec) / 1000000000.0;
+  printf("Time: %.20f seconds\n", timeDiff);
   // PrintMatrix(testArr, dimension, dimension);
   free(testArr);
 
