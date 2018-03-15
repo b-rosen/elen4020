@@ -69,7 +69,7 @@ int main(int argc, char const *argv[])
 {
   int *testArr = malloc(DimensionsToLength(MAX_MATRIX_SIZE)*sizeof(int));
   SetNumber(testArr, MAX_MATRIX_SIZE);
-  pthread_t threads[MAX_NUM_THREADS];
+  pthread_t threads[MAX_NUM_THREADS - 1];
   for (int dimension = 128; dimension <= MAX_MATRIX_SIZE; dimension *= 8)
   {
     for (int numThreads = 4; numThreads <= MAX_NUM_THREADS; numThreads *= 2)
@@ -102,18 +102,38 @@ int main(int argc, char const *argv[])
           threadArgsArray[threadNo].iterations++;
           i++;
         }
-
-        thread = pthread_create(&threads[threadNo], NULL, DoSwaps, (void *)&threadArgsArray[threadNo]);
-        if (thread)
+        if (i >= swapLength - iterationsPerThread)
         {
-            printf("ERROR; return code from pthread_create() is %d\n", thread);
-            exit(-1);
+          int temp;
+          int y = threadArgsArray[threadNo].yStart;
+          for (size_t i = 0; i < threadArgsArray[threadNo].iterations; i++)
+          {
+            temp = testArr[x + y*dimension];
+            testArr[x + y*dimension] = testArr[y + x*dimension];
+            testArr[y + x*dimension] = temp;
+            y++;
+            if (y >= x)
+            {
+              y = 0;
+              x++;
+            }
+          }
         }
-        threadNo++;
+        else
+        {
+          thread = pthread_create(&threads[threadNo], NULL, DoSwaps, (void *)&threadArgsArray[threadNo]);
+          if (thread)
+          {
+              printf("ERROR; return code from pthread_create() is %d\n", thread);
+              exit(-1);
+          }
+          threadNo++;
+        }
       }
+
       void *status;
       int rc;
-      for(size_t t = 0; t < numThreads; t++)
+      for(size_t t = 0; t < numThreads - 1; t++)
       {
         rc = pthread_join(threads[t], &status);
         if (rc)
