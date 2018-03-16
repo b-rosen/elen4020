@@ -4,10 +4,11 @@
 #include <math.h>
 #include <time.h>
 
-#define MAX_NUM_THREADS 2
+#define MAX_NUM_THREADS 128
+#define MAX_MATRIX_SIZE 8192
 
-int DimensionsToLength(int xSize, int ySize)
-{  return xSize*ySize; }
+int DimensionsToLength(int size)
+{  return size*size; }
 
 struct ThreadArgs
 {
@@ -42,21 +43,21 @@ void *DoSwaps(void *threadArgs)
   pthread_exit(NULL);
 }
 
-void PrintMatrix(int *arr, int xSize, int ySize)
+void PrintMatrix(int *arr, int size)
 {
-  int length = DimensionsToLength(xSize, ySize);
+  int length = DimensionsToLength(size);
   for (size_t i = 0; i < length; i++)
   {
     printf("%d\t", arr[i]);
-    if ((i+1) % xSize == 0)
+    if ((i+1) % size == 0)
       printf("\n");
   }
   printf("\n");
 }
 
-void SetNumber(int *arr, int xSize, int ySize)
+void SetNumber(int *arr,int size)
 {
-  int length = DimensionsToLength(xSize, ySize);
+  int length = DimensionsToLength(size);
 
   for (int i = 0; i < length; i++)
   {
@@ -66,85 +67,87 @@ void SetNumber(int *arr, int xSize, int ySize)
 
 int main(int argc, char const *argv[])
 {
-  int dimension = 12;
-  int swapLength = (dimension*(dimension - 1)) / 2;
-  int iterationsPerThread = swapLength / MAX_NUM_THREADS;
-
-  int *testArr = malloc(DimensionsToLength(dimension, dimension)*sizeof(int));
-  pthread_t threads[MAX_NUM_THREADS];
-  SetNumber(testArr, dimension, dimension);
-  // PrintMatrix(testArr, dimension, dimension);
-  double rawPos;
-  int extraWorkThreads = swapLength % MAX_NUM_THREADS;
-  // int xReal = 0;
-  // int yReal = -1;
-  int x;
-  int threadNo = 0;
-  int thread;
-
-  clock_t time1 = clock();
-  for (size_t i = 0; i < swapLength; i += iterationsPerThread)
+  int *testArr = malloc(DimensionsToLength(MAX_MATRIX_SIZE)*sizeof(int));
+  SetNumber(testArr, MAX_MATRIX_SIZE);
+  pthread_t threads[MAX_NUM_THREADS - 1];
+  for (int dimension = 128; dimension <= MAX_MATRIX_SIZE; dimension *= 8)
   {
-    rawPos = 0.5 + sqrt(0.25 + 2*i);
-    x = floor(rawPos);
-    threadArgsArray[threadNo].xStart = x;
-    threadArgsArray[threadNo].yStart = trunc((rawPos - x) * (x + 1));
-    threadArgsArray[threadNo].iterations = iterationsPerThread;
-    threadArgsArray[threadNo].matrix = testArr;
-    threadArgsArray[threadNo].matrixSize = dimension;
-
-    if (threadNo < extraWorkThreads)
+    for (int numThreads = 4; numThreads <= MAX_NUM_THREADS; numThreads *= 2)
     {
-      threadArgsArray[threadNo].iterations++;
-      i++;
-    }
+      int swapLength = (dimension*(dimension - 1)) / 2;
+      int iterationsPerThread = swapLength / numThreads;
 
-    thread = pthread_create(&threads[threadNo], NULL, DoSwaps, (void *)&threadArgsArray[threadNo]);
-    if (thread)
-    {
-        printf("ERROR; return code from pthread_create() is %d\n", thread);
-        exit(-1);
-    }
-    // DoSwaps((void *) &threadArgsArray[threadNo]);
+      double rawPos;
+      int extraWorkThreads = swapLength % numThreads;
 
-    threadNo++;
-    // yReal++;
-    // if (yReal >= xReal)
-    // {
-    //   yReal = 0;
-    //   xReal++;
-    // }
-    // if (yReal != y || xReal != x)
-    // {
-    //   printf("Error:\tReal(%d,%d)\tAssumed(%d:%d)\tRaw: %f\n", xReal, yReal, x, y, rawPos);
-    // }
-    // if (y == x-1)
-    //   printf("(%d,%d)\n", x, y);
-    // else
-    //   printf("(%d,%d) ", x, y);
-  }
-  void *status;
-  int rc;
-  for(size_t t = 0; t < MAX_NUM_THREADS; t++)
-  {
-     rc = pthread_join(threads[t], &status);
-     if (rc) {
-        printf("ERROR; return code from pthread_join() is %d\n", rc);
-        exit(-1);
+      int x;
+      int threadNo = 0;
+      int thread;
+
+      struct timespec time1, time2;
+
+      clock_gettime(CLOCK_REALTIME, &time1);
+      for (size_t i = 0; i < swapLength; i += iterationsPerThread)
+      {
+        rawPos = 0.5 + sqrt(0.25 + 2*i);
+        x = floor(rawPos);
+        threadArgsArray[threadNo].xStart = x;
+        threadArgsArray[threadNo].yStart = trunc((rawPos - x) * (x + 1));
+        threadArgsArray[threadNo].iterations = iterationsPerThread;
+        threadArgsArray[threadNo].matrix = testArr;
+        threadArgsArray[threadNo].matrixSize = dimension;
+
+        if (threadNo < extraWorkThreads)
+        {
+          threadArgsArray[threadNo].iterations++;
+          i++;
         }
-  }
-  clock_t time2 = clock();
-  double time = (double) (time2 - time1) / (double)CLOCKS_PER_SEC;
-  printf("Time: %lf seconds\n", time);
-  // struct ThreadArgs testArgs;
-  // testArgs.xStart = 0;
-  // testArgs.yStart = 0;
-  // testArgs.iterations = swapLength;
-  // testArgs.matrix = testArr;
-  // testArgs.matrixSize = dimension;
+        if (i >= swapLength - iterationsPerThread)
+        {
+          int temp;
+          int y = threadArgsArray[threadNo].yStart;
+          for (size_t i = 0; i < threadArgsArray[threadNo].iterations; i++)
+          {
+            temp = testArr[x + y*dimension];
+            testArr[x + y*dimension] = testArr[y + x*dimension];
+            testArr[y + x*dimension] = temp;
+            y++;
+            if (y >= x)
+            {
+              y = 0;
+              x++;
+            }
+          }
+        }
+        else
+        {
+          thread = pthread_create(&threads[threadNo], NULL, DoSwaps, (void *)&threadArgsArray[threadNo]);
+          if (thread)
+          {
+              printf("ERROR; return code from pthread_create() is %d\n", thread);
+              exit(-1);
+          }
+          threadNo++;
+        }
+      }
 
-  // DoSwaps(&testArgs);
-  // PrintMatrix(testArr, dimension, dimension);
+      void *status;
+      int rc;
+      for(size_t t = 0; t < numThreads - 1; t++)
+      {
+        rc = pthread_join(threads[t], &status);
+        if (rc)
+        {
+          printf("ERROR; return code from pthread_join() is %d\n", rc);
+          exit(-1);
+        }
+      }
+      clock_gettime(CLOCK_REALTIME, &time2);
+      double timeDiff = time2.tv_sec - time1.tv_sec;
+      timeDiff += (time2.tv_nsec - time1.tv_nsec) / 1000000000.0;  printf("%dx%d\t%d\t%.10f\n", dimension, dimension, numThreads, timeDiff);
+    }
+    printf("----------------------------------------------\n");
+  }
   pthread_exit(NULL);
   free(testArr);
 
