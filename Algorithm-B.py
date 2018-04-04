@@ -52,10 +52,18 @@ class MatrixMultiplication2(MRJob):
                 for j in range(0,rows2):
                     for k in range(0,columns2):
                         yield((i,k),B[j][k])
+            print(str(rows1) + ' ' + str(columns2))
 
 
     def reducer(self, key, values):
-        print(str(key[0]) + ' ' + str(key[1]) + ' ' + str(sum(values)))
+        global columns1
+        sumVal = 0
+        values = list(values)
+        for j in range(0,columns1):
+            tempVal = values[j]*values[columns1+j]
+            sumVal += tempVal
+                
+        print(str(key[0]) + ' ' + str(key[1]) + ' ' + str(sumVal))
         
 
 if __name__ == '__main__':
