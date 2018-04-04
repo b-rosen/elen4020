@@ -3,7 +3,7 @@ from mrjob.job import MRJob, MRStep
 count = 0
 secondMatrix = False
 
-class MRWordFrequencyCount(MRJob):
+class MatrixMultiplication(MRJob):
     def steps(self):
         return [
             MRStep(mapper=self.mapper,
@@ -63,4 +63,4 @@ class MRWordFrequencyCount(MRJob):
             print str(key[0]) + ' ' + str(key[1]) + ' ' + str(sum(values))
 
 if __name__ == '__main__':
-    MRWordFrequencyCount.run()
+    MatrixMultiplication.run()
