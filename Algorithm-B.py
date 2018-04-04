@@ -15,9 +15,6 @@ class MatrixMultiplication2(MRJob):
     def mapper(self, _, line):
         global count, mat2, matFinish, A, B, rows1, columns1, rows2, columns2
         
-        count = 0
-        mat2 = False
-        
         line = line.split()
         lineInt = []
         for entry in line:
@@ -29,19 +26,19 @@ class MatrixMultiplication2(MRJob):
             if mat2 == False:
                 rows1 = line[0]
                 columns1 = line[1]
-                A = [[0 for i in range(line[0])] for j in range(line[1])]
+                A = [[0 for i in range(line[1])] for j in range(line[0])]
             else:
                 rows2 = line[0]
                 columns2 = line[1]
-                B = [[0 for j in range(line[0])] for k in range(line[1])]
+                B = [[0 for j in range(line[1])] for k in range(line[0])]
         elif mat2 == False:
             count -= 1
-            A[line[0],line[1]] = line[2]
+            A[line[0]][line[1]] = line[2]
             if count == 0:
                 mat2 = True
         else:
             count -= 1
-            B[line[0],line[1]] = line[2]
+            B[line[0]][line[1]] = line[2]
             if count == 0:
                 matFinish = True
                 
@@ -58,7 +55,7 @@ class MatrixMultiplication2(MRJob):
 
 
     def reducer(self, key, values):
-        print str(key[0]) + ' ' + str(key[1]) + ' ' + str(sum(values))
+        print(str(key[0]) + ' ' + str(key[1]) + ' ' + str(sum(values)))
         
 
 if __name__ == '__main__':

@@ -58,9 +58,9 @@ class MatrixMultiplication(MRJob):
             output = str()
             for value in values:
                 output += str(value) + ' '
-            print output
+            print(output)
         else:
-            print str(key[0]) + ' ' + str(key[1]) + ' ' + str(sum(values))
+            print(str(key[0]) + ' ' + str(key[1]) + ' ' + str(sum(values)))
 
 if __name__ == '__main__':
     MatrixMultiplication.run()
