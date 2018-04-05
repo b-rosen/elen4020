@@ -1,4 +1,5 @@
 from mrjob.job import MRJob, MRStep
+from time import clock
 
 count = 0
 secondMatrix = False
@@ -6,8 +7,7 @@ secondMatrix = False
 class MatrixMultiplication(MRJob):
     def steps(self):
         return [
-            MRStep(mapper=self.mapper,
-                   reducer=self.reducerMulti),
+            MRStep(mapper=self.mapper, reducer=self.reducerMulti),
             MRStep(reducer=self.reducerAdd)
         ]
 
@@ -39,8 +39,10 @@ class MatrixMultiplication(MRJob):
 
     def reducerMulti(self, key, values):
         if key == 'matrixSize':
+            output = []
             for value in values:
-                yield ('matrixSize', value)
+                output.append(str(value))
+            print(' '.join(output))
         else:
             matrix1 = []
             matrix2 = []
@@ -54,13 +56,10 @@ class MatrixMultiplication(MRJob):
                     yield ((entry1[0], entry2[1]), entry1[2]*entry2[2])
 
     def reducerAdd(self, key, values):
-        if len(key) == 10:
-            output = str()
-            for value in values:
-                output += str(value) + ' '
-            print(output)
-        else:
-            print(str(key[0]) + ' ' + str(key[1]) + ' ' + str(sum(values)))
+        print (str(key[0]) + ' ' + str(key[1]) + ' ' + str(sum(values)))
 
 if __name__ == '__main__':
+    start = clock()
     MatrixMultiplication.run()
+    end = clock()
+    print ('\n' + 'Time: ' + str(end - start))

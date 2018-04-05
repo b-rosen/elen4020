@@ -1,4 +1,5 @@
 from mrjob.job import MRJob
+from time import clock
 
 count = 0
 mat2 = False
@@ -14,13 +15,13 @@ class MatrixMultiplication2(MRJob):
 
     def mapper(self, _, line):
         global count, mat2, matFinish, A, B, rows1, columns1, rows2, columns2
-        
+
         line = line.split()
         lineInt = []
         for entry in line:
             lineInt.append(int(entry))
         line = lineInt
-        
+
         if len(line) < 3:
             count = line[0]*line[1]
             if mat2 == False:
@@ -41,13 +42,13 @@ class MatrixMultiplication2(MRJob):
             B[line[0]][line[1]] = line[2]
             if count == 0:
                 matFinish = True
-                
+
         if matFinish:
             for k in range(0,columns2):
                 for i in range(0,rows1):
                     for j in range(0,columns1):
                         yield((i,k),A[i][j])
-            
+
             for i in range(0,rows1):
                 for j in range(0,rows2):
                     for k in range(0,columns2):
@@ -62,9 +63,12 @@ class MatrixMultiplication2(MRJob):
         for j in range(0,columns1):
             tempVal = values[j]*values[columns1+j]
             sumVal += tempVal
-                
+
         print(str(key[0]) + ' ' + str(key[1]) + ' ' + str(sumVal))
-        
+
 
 if __name__ == '__main__':
+    start = clock()
     MatrixMultiplication2.run()
+    end = clock()
+    print ('\n' + 'Time: ' + str(end - start))
