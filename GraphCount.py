@@ -1,6 +1,9 @@
 from mrjob.job import MRJob, MRStep
 from time import clock
 
+count = 0
+secondMatrix = False
+
 class GraphCount(MRJob):
     def steps(self):
         return [
@@ -10,17 +13,24 @@ class GraphCount(MRJob):
         ]
 
     def mapper(self, _, line):
+        global count, secondMatrix
 
         line = line.split()
         lineInt = []
         for entry in line:
             lineInt.append(int(entry))
         line = lineInt
-        if len(line) >= 3:
+        if len(line) < 3:
+            if secondMatrix == False:
+                count = line[0] * line[1]
+        elif secondMatrix == False:
+            count -= 1
+            if count == 0:
+                secondMatrix = True
             # Do mapping for first matrix
             line.append(1)
             yield (line[1], line)
-            line.pop()
+        else:
             # Do mapping for second matrix
             line.append(2)
             yield (line[0], line)
@@ -42,7 +52,6 @@ class GraphCount(MRJob):
         if total != 0:
             yield ('connectedNode', key)
             yield ('numberOfNodes', total)
-            # print (str(key[0]) + ' ' + str(key[1]) + ' ' + str(total))
 
     def reducerGraph(self, key, values):
         if key == 'connectedNode':

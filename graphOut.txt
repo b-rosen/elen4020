@@ -1,2 +1,6 @@
+Connected Pairs:
+0 2 
 
-Time: 0.33321400000000007
+Number of Connected Node Pairs: 1
+
+Time: 0.33002200000000004
