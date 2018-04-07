@@ -15,7 +15,7 @@ class MatrixMultiplication2(MRJob):
 
     def mapper(self, _, line):
         global count, mat2, matFinish, A, B, rows1, columns1, rows2, columns2
-
+        
         line = line.split()
         lineInt = []
         for entry in line:
@@ -32,6 +32,7 @@ class MatrixMultiplication2(MRJob):
                 rows2 = line[0]
                 columns2 = line[1]
                 B = [[0 for j in range(line[1])] for k in range(line[0])]
+                print(B[99][99])
         elif mat2 == False:
             count -= 1
             A[line[0]][line[1]] = line[2]

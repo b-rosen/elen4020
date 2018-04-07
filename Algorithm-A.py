@@ -13,7 +13,7 @@ class MatrixMultiplication(MRJob):
 
     def mapper(self, _, line):
         global count, secondMatrix
-
+        
         line = line.split()
         lineInt = []
         for entry in line:
