@@ -695,8 +695,40 @@ name "sec:Results"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Results for Algorithm A and B and the Graph Node Calculator
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Although algorithm B has only one stage and algorithm A has two stages,
- algorithm A was found to preform much better for large matrices.
+ algorithm A was found to preform much better for large matrices, whereas
+ B was slightly faster for smaller data sets.
 \end_layout
 
 \begin_layout Section
