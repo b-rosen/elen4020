@@ -611,7 +611,7 @@ Pseudo code for Algorithm B
 \end_layout
 
 \begin_layout Section
-Node Graph
+Graph Path Length Implementation
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Node-Graph"
@@ -708,7 +708,14 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Results for Algorithm A and B and the Graph Node Calculator
+Results for Algorithm A and B
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Results-for-Algorithm"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -719,8 +726,9 @@ Results for Algorithm A and B and the Graph Node Calculator
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="3">
+<lyxtabular version="3" rows="11" columns="4">
 <features tabularvalignment="middle">
+<column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -738,7 +746,16 @@ Algorithm
 \begin_inset Text
 
 \begin_layout Plain Layout
-Matrix Size
+Matrix 1 Size
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Matrix 2 Size
 \end_layout
 
 \end_inset
@@ -754,11 +771,20 @@ Time (s)
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 A
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4x2
 \end_layout
 
 \end_inset
@@ -776,14 +802,14 @@ A
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.75521749
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -796,7 +822,16 @@ A
 \begin_inset Text
 
 \begin_layout Plain Layout
+200x100
+\end_layout
 
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+500x200
 \end_layout
 
 \end_inset
@@ -805,14 +840,14 @@ A
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+101.32513048
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -825,7 +860,16 @@ A
 \begin_inset Text
 
 \begin_layout Plain Layout
+100x100 (outA1)
+\end_layout
 
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100x100 (outB1)
 \end_layout
 
 \end_inset
@@ -834,14 +878,14 @@ A
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+N/A
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -854,7 +898,16 @@ A
 \begin_inset Text
 
 \begin_layout Plain Layout
+1000x500 (outA2)
+\end_layout
 
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+500x1000 (outB2)
 \end_layout
 
 \end_inset
@@ -863,72 +916,14 @@ A
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+N/A
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -941,7 +936,16 @@ A
 \begin_inset Text
 
 \begin_layout Plain Layout
+1000x500 (outA3)
+\end_layout
 
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+500x1 (outB3)
 \end_layout
 
 \end_inset
@@ -950,7 +954,197 @@ A
 \begin_inset Text
 
 \begin_layout Plain Layout
+N/A
+\end_layout
 
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4x2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4x4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.34414595
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+200x100
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+500x200
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+540.31728145
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100x100 (outA1)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100x100 (outB1)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+N/A
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1000x500 (outA2)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+500x1000 (outB2)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+N/A
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1000x500 (outA3)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+500x1 (outB3)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+N/A
 \end_layout
 
 \end_inset
@@ -969,7 +1163,34 @@ A
 \end_layout
 
 \begin_layout Standard
-Although algorithm B has only one stage and algorithm A has two stages,
+The results for the various input files are shown in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Results-for-Algorithm"
+
+\end_inset
+
+.
+ Test files given by the lab is denoted by specifying the file name in brackets
+ under the matrix size.
+ As is shown, the test files did not run correctly.
+ On inspecting the files, it was found that the input file for the second
+ matrix was not complete.
+ In addition, the graph matrix was given in upper echelon form, which is
+ a suitable representation for an undirected graph but not for the lab-specified
+ directed graph as mentioned in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Node-Graph"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Nevertheless, testing was successful with the authors' files.
+ Although algorithm B has only one stage and algorithm A has two stages,
  algorithm A was found to preform much better for large matrices, whereas
  B was slightly faster for smaller data sets.
 \end_layout
@@ -989,11 +1210,12 @@ name "sec:Conclusions"
 The map reduce framework can be used to solve matrix multiplication in one
  or two stages.
  Although the one stage algorithm out preforms the two stage algorithm for
- small matrices, the two stage algorithm is significantly faster for 2 sage
+ small matrices, the two stage algorithm is significantly faster for 2 stage
  algorithms.
  The created algorithms can also be used to solve node graph lengths when
  the node graph is represented as a matrix.
- 
+ The given lab files are not in the correct format/missing data points to
+ be properly used for testing the speed of the algorithms.
 \end_layout
 
 \end_body
