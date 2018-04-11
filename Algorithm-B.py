@@ -9,11 +9,13 @@ columns1 = 0
 rows2 = 0
 columns2 = 0
 lastLine = str()
+dimensionsA = str()
+dimensionsB = str()
     
 
 class MatrixMultiplication2(MRJob):
     def mapper(self, _, line):
-        global A, B, rows1, columns1, rows2, columns2, lastLine
+        global A, B, rows1, columns1, rows2, columns2, lastLine, dimensionsA, dimensionsB
         
         inLine = line
         line = line.split()
@@ -22,7 +24,7 @@ class MatrixMultiplication2(MRJob):
             lineInt.append(int(entry))
         line = lineInt
         
-        if line[0] != rows1 and line[0] != rows2:
+        if inLine.split() != dimensionsA and inLine.split() != dimensionsB:
             if len(line) < 3:
                 if 'A' in os.environ['map_input_file'] and rows1 == 1:
                     A[0][line[0]] = line[1]
