@@ -14,7 +14,7 @@ def PrintMatrix(matrixDim, filename):
     data.append(str(matrixDim[0]) + ' ' + str(matrixDim[1]))
     for x in range(0, matrixDim[0]):
         for y in range(0, matrixDim[1]):
-            data.append(str(x) + ' ' + str(y) + ' ' + str(random.randint(0, 1000)))
+            data.append(str(x) + ' ' + str(y) + ' ' + str(random.randint(0, 100)))
     data = '\n'.join(data)
     file.write(data)
     file.close()

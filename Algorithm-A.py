@@ -20,9 +20,17 @@ class MatrixMultiplication(MRJob):
             line = lineInt
             if 'A' in os.environ['map_input_file']:
                 # Do mapping for first matrix
+                if dimensionsA[0] == '1':
+                    line.insert(0, 0)
+                elif dimensionsA[1] == '1':
+                    line.insert(1, 0)
                 line.append(1)
                 yield (line[1], line)
             else:
+                if dimensionsB[0] == '1':
+                    line.insert(0, 0)
+                elif dimensionsB[1] == '1':
+                    line.insert(1, 0)
                 # Do mapping for second matrix
                 line.append(2)
                 yield (line[0], line)
@@ -48,7 +56,6 @@ if __name__ == '__main__':
     fileA.close()
     fileB = open(str(sys.argv[2]),'r')
     dimensionsB = fileB.readline().split()
-    lastLine = fileB.readlines()[-1]
     fileB.close()
     print (dimensionsA[0], dimensionsB[1])
     MatrixMultiplication.run()
