@@ -28,7 +28,7 @@ class MatrixMultiplication2(MRJob):
                     A[0][line[0]] = line[1]
                 elif 'A' in os.environ['map_input_file'] and columns1 == 1:
                     A[line[0]][0] = line[1]   
-                elif 'B' in os.environ['map_input_file']:
+                elif 'B' in os.environ['map_input_file'] and rows2 == 1:
                     B[0][line[0]] = line[1]
                 else:
                     B[line[0]][0] = line[1]
@@ -76,8 +76,8 @@ if __name__ == '__main__':
     rows2 = int(dimensionsB[0])
     columns2 = int(dimensionsB[1])
     
-    A = [[0 for i in range(rows1)] for j in range(columns1)]
-    B = [[0 for j in range(rows2)] for k in range(columns2)]
+    A = [[0 for i in range(columns1)] for j in range(rows1)]
+    B = [[0 for j in range(columns2)] for k in range(rows2)]
     print(str(rows1) + ' ' + str(columns2))
     
     MatrixMultiplication2.run()
