@@ -1,21 +1,21 @@
 from mrjob.job import MRJob
-from time import clock
+import os
+import sys
 
-count = 0
-mat2 = False
-matFinish = False
 A = []
 B = []
 rows1 = 0
 columns1 = 0
 rows2 = 0
 columns2 = 0
+lastLine = str()
+    
 
 class MatrixMultiplication2(MRJob):
-
     def mapper(self, _, line):
-        global count, mat2, matFinish, A, B, rows1, columns1, rows2, columns2
+        global A, B, rows1, columns1, rows2, columns2
         
+        inLine = line
         line = line.split()
         lineInt = []
         for entry in line:
@@ -23,8 +23,7 @@ class MatrixMultiplication2(MRJob):
         line = lineInt
 
         if len(line) < 3:
-            count = line[0]*line[1]
-            if mat2 == False:
+            if 'A' in os.environ['map_input_file']:
                 rows1 = line[0]
                 columns1 = line[1]
                 A = [[0 for i in range(line[1])] for j in range(line[0])]
@@ -32,18 +31,12 @@ class MatrixMultiplication2(MRJob):
                 rows2 = line[0]
                 columns2 = line[1]
                 B = [[0 for j in range(line[1])] for k in range(line[0])]
-        elif mat2 == False:
-            count -= 1
+        elif 'A' in os.environ['map_input_file']:
             A[line[0]][line[1]] = line[2]
-            if count == 0:
-                mat2 = True
         else:
-            count -= 1
             B[line[0]][line[1]] = line[2]
-            if count == 0:
-                matFinish = True
 
-        if matFinish:
+        if inLine == lastLine:
             for k in range(0,columns2):
                 for i in range(0,rows1):
                     for j in range(0,columns1):
@@ -68,7 +61,21 @@ class MatrixMultiplication2(MRJob):
 
 
 if __name__ == '__main__':
-    start = clock()
+    fileA = open(str(sys.argv[1]),'r')
+    dimensionsA = fileA.readline().split()
+    fileA.close()
+    fileB = open(str(sys.argv[2]),'r')
+    dimensionsB = fileB.readline().split()
+    lastLine = fileB.readlines()[-1]
+    fileB.close()
+    
+    rows1 = int(dimensionsA[0])
+    columns1 = int(dimensionsA[1])
+    rows2 = int(dimensionsB[0])
+    columns2 = int(dimensionsB[1])
+    
+    A = [[0 for i in range(columns1)] for j in range(rows1)]
+    B = [[0 for j in range(columns2)] for k in range(rows2)]
+    
     MatrixMultiplication2.run()
-    end = clock()
-    print ('\n' + 'Time: ' + str(end - start))
+    
