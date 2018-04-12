@@ -10,8 +10,6 @@ class MatrixMultiplication(MRJob):
         ]
 
     def mapper(self, _, line):
-        global count, secondMatrix
-
         line = line.split()
         if line != dimensionsA and line != dimensionsB:
             lineInt = []

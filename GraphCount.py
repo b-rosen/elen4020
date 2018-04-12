@@ -1,8 +1,6 @@
 from mrjob.job import MRJob, MRStep
-from time import clock
-
-count = 0
-secondMatrix = False
+import sys
+import os
 
 class GraphCount(MRJob):
     def steps(self):
@@ -13,27 +11,28 @@ class GraphCount(MRJob):
         ]
 
     def mapper(self, _, line):
-        global count, secondMatrix
-
         line = line.split()
-        lineInt = []
-        for entry in line:
-            lineInt.append(int(entry))
-        line = lineInt
-        if len(line) < 3:
-            if secondMatrix == False:
-                count = line[0] * line[1]
-        elif secondMatrix == False:
-            count -= 1
-            if count == 0:
-                secondMatrix = True
-            # Do mapping for first matrix
-            line.append(1)
-            yield (line[1], line)
-        else:
-            # Do mapping for second matrix
-            line.append(2)
-            yield (line[0], line)
+        if line != dimensionsA and line != dimensionsB:
+            lineInt = []
+            for entry in line:
+                lineInt.append(int(entry))
+            line = lineInt
+            if 'outNetwork.list' in os.environ['map_input_file']:
+                # Do mapping for first matrix
+                if dimensionsA[0] == '1':
+                    line.insert(0, 0)
+                elif dimensionsA[1] == '1':
+                    line.insert(1, 0)
+                line.append(1)
+                yield (line[1], line)
+            else:
+                if dimensionsB[0] == '1':
+                    line.insert(0, 0)
+                elif dimensionsB[1] == '1':
+                    line.insert(1, 0)
+                # Do mapping for second matrix
+                line.append(2)
+                yield (line[0], line)
 
     def reducerMulti(self, key, values):
         matrix1 = []
@@ -49,9 +48,9 @@ class GraphCount(MRJob):
 
     def reducerAdd(self, key, values):
         total = sum(values)
-        if total != 0:
+        if total == 3:
             yield ('connectedNode', key)
-            yield ('numberOfNodes', total)
+            yield ('numberOfNodes', 1)
 
     def reducerGraph(self, key, values):
         if key == 'connectedNode':
@@ -65,7 +64,10 @@ class GraphCount(MRJob):
             print('Number of Connected Node Pairs: ' + str(int(sum(values))))
 
 if __name__ == '__main__':
-    start = clock()
+    fileA = open(str(sys.argv[1]),'r')
+    dimensionsA = fileA.readline().split()
+    fileA.close()
+    fileB = open(str(sys.argv[2]),'r')
+    dimensionsB = fileB.readline().split()
+    fileB.close()
     GraphCount.run()
-    end = clock()
-    print ('\n' + 'Time: ' + str(end - start))
