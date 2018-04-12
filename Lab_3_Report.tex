@@ -49,10 +49,10 @@ to create two algorithms that perform matrix multiplication. Once
 the algorithms were created one was to be used to find nodes connected
 by length 3 in an unweighted directed graph which is represented as
 a matrix. The Python library Mrjob was selected to implement the algorithms.
-Section \ref{sec:Algorithms} below discusses the created algorithms
-and how they were implemented. Section \ref{sec:Node-Graph} details
-how the node graph problem was solved, while Section \ref{sec:Results}
-gives the results of testing the algorithms and finally, Section \ref{sec:Conclusions}
+Section II below discusses the created algorithms
+and how they were implemented. Section III details
+how the node graph problem was solved, while Section IV
+gives the results of testing the algorithms and finally, Section V
 concludes the report. 
 
 \section{Algorithms\label{sec:Algorithms}}
@@ -207,36 +207,35 @@ Algorithm & Matrix 1 Size & Matrix 2 Size & Time (s)\tabularnewline
 \cline{2-4} 
  & 200x100 & 500x200 & 101.32513048\tabularnewline
 \cline{2-4} 
- & 100x100 (outA1) & 100x100 (outB1) & N/A\tabularnewline
+ & 100x100 (outA1) & 100x100 (outB1) & 19.76\tabularnewline
 \cline{2-4} 
  & 1000x500 (outA2) & 500x1000 (outB2) & N/A\tabularnewline
 \cline{2-4} 
- & 1000x500 (outA3) & 500x1 (outB3) & N/A\tabularnewline
+ & 1000x500 (outA3) & 500x1 (outB3) & 25.58\tabularnewline
 \hline 
 \hline 
 \multirow{5}{*}{B} & 4x2 & 4x4 & 0.34414595\tabularnewline
 \cline{2-4} 
  & 200x100 & 500x200 & 540.31728145\tabularnewline
 \cline{2-4} 
- & 100x100 (outA1) & 100x100 (outB1) & N/A\tabularnewline
+ & 100x100 (outA1) & 100x100 (outB1) & 47.69\tabularnewline
 \cline{2-4} 
  & 1000x500 (outA2) & 500x1000 (outB2) & N/A\tabularnewline
 \cline{2-4} 
- & 1000x500 (outA3) & 500x1 (outB3) & N/A\tabularnewline
+ & 1000x500 (outA3) & 500x1 (outB3) & 28.89\tabularnewline
 \hline 
 \end{tabular}
 \end{table}
 
-The results for the various input files are shown in Table \ref{tab:Results-for-Algorithm}.
+The results for the various input files are shown in Table 1.
 Test files given by the lab is denoted by specifying the file name
-in brackets under the matrix size. As is shown, the test files did
-not run correctly. On inspecting the files, it was found that the
-input file for the second matrix was not complete. In addition, the
+in brackets under the matrix size. As is shown, the large test files did
+not run correctly. This was due to the size of the matrix. Even when run on the designated cluster, the execution did not complet. In addition, the
 graph matrix was given in upper echelon form, which is a suitable
 representation for an undirected graph but not for the lab-specified
-directed graph as mentioned in Section \ref{sec:Node-Graph}.
+directed graph as mentioned in Section III.
 
-Nevertheless, testing was successful with the authors' files. Although
+Nevertheless, testing was successful with the authors' files and the other given input files. Although
 algorithm B has only one stage and algorithm A has two stages, algorithm
 A was found to preform much better for large matrices, whereas B was
 slightly faster for smaller data sets.
@@ -248,7 +247,7 @@ in one or two stages. Although the one stage algorithm out preforms
 the two stage algorithm for small matrices, the two stage algorithm
 is significantly faster for 2 stage algorithms. The created algorithms
 can also be used to solve node graph lengths when the node graph is
-represented as a matrix. The given lab files are not in the correct
+represented as a matrix. Some of the given lab files are not in the correct
 format/missing data points to be properly used for testing the speed
 of the algorithms.
 \end{document}
