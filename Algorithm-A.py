@@ -2,12 +2,22 @@ from mrjob.job import MRJob, MRStep
 import os
 import sys
 
+dimensionsA = []
+dimensionsB = []
+
 class MatrixMultiplication(MRJob):
     def steps(self):
         return [
-            MRStep(mapper=self.mapper, reducer=self.reducerMulti),
+            MRStep(mapper_init=self.minit, mapper=self.mapper, reducer=self.reducerMulti),
             MRStep(reducer=self.reducerAdd)
         ]
+
+    def minit(self):
+        global dimensionsA, dimensionsB
+        file = open('dimensions.txt','r')
+        dimensionsA = file.readline().split()
+        dimensionsB = file.readline().split()
+        file.close()
 
     def mapper(self, _, line):
         line = line.split()
@@ -49,11 +59,16 @@ class MatrixMultiplication(MRJob):
         print (str(key[0]) + ' ' + str(key[1]) + ' ' + str(sum(values)))
 
 if __name__ == '__main__':
-    fileA = open(str(sys.argv[1]),'r')
-    dimensionsA = fileA.readline().split()
-    fileA.close()
-    fileB = open(str(sys.argv[2]),'r')
-    dimensionsB = fileB.readline().split()
-    fileB.close()
-    print (dimensionsA[0], dimensionsB[1])
+    if len(sys.argv) > 4:
+        for arg in sys.argv:
+            if '.txt' in arg or '.list' in arg:
+                if 'A' in arg:
+                    fileA = open(arg,'r')
+                    dimensionsA = fileA.readline().split()
+                    fileA.close()
+                elif 'B' in arg:
+                    fileB = open(arg,'r')
+                    dimensionsB = fileB.readline().split()
+                    fileB.close()
+                    print (dimensionsA[0], dimensionsB[1])
     MatrixMultiplication.run()
